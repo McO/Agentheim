@@ -8,6 +8,9 @@ its **plugin contract** (skills, commands, `.agentheim/` layout) with
 
 ## [Unreleased]
 
+### Fixed
+- **Plugin-file lookup honors the install Claude Code actually registered** — every env-independent resolver (the inline `node -e` bootstraps in `work`, `modeling`, `quick-capture`, `/setup`, the worker/verifier `Stop` hooks, `references/lib-bootstrap.md`, plus `lib/resolve-plugin-file.mjs` and the standalone `agentheim-dashboard` CLI) now reads `~/.claude/plugins/installed_plugins.json` before falling back to the `cache/agentheim/agentheim/<semver-max>` walk. Project/local-scoped `agentheim@<any-marketplace>` installs whose `projectPath` contains the cwd (worktrees included) win, then user-scoped installs; installs scoped to other projects are skipped. A fork installed from a differently-named marketplace (e.g. `agentheim@agentheim-local`) now runs its own code instead of whatever upstream copy sits in `cache/agentheim/agentheim/`, and an orphaned cache version dir no longer outranks the registered install. New `installedPluginRoots()` export, covered by `lib/test/resolve-plugin-file.test.mjs`. After updating, re-run `/setup install cli` to refresh the copy in `~/.local/bin`.
+
 ## [0.9.7] - 2026-11-01
 
 **Herdr launches open a split pane next to you, not a new tab.** A patch to the Herdr bridge:
