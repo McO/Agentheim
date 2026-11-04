@@ -22,6 +22,6 @@ Generate the token **randomly** — never scan existing files for a "next number
 - **Legacy tail** = all digits (e.g. `-077`). Kept as-is on disk — never rewritten or renumbered.
 - **New tail** leads with a letter (e.g. `-k3f9q`).
 - Disambiguation: is the first character after the last `-` a letter? Yes → new-style token. No → legacy digit tail.
-- **Reserved foundation ids** (e.g. `design-system-001-styleguide`, `infrastructure-001-walking-skeleton`) keep deterministic digit-leading tails — a closed set `brainstorm` mints, not random tokens (ADR-0028 §7). Every other id, including decision tasks `brainstorm` emits, gets an ordinary random token.
+- **Reserved foundation ids** (`design-system-001`, the styleguide, and `infrastructure-001`, the walking skeleton — filed as `design-system-001-styleguide.md` / `infrastructure-001-walking-skeleton.md`, but the slug is never part of the id) keep deterministic digit-leading tails — a closed set `brainstorm` mints, not random tokens (ADR-0028 §7). Every other id, including decision tasks `brainstorm` emits, gets an ordinary random token.
 
 ADR of record: `.agentheim/knowledge/decisions/0028-collision-resistant-task-ids-short-random-token.md` §1 (Token grammar).

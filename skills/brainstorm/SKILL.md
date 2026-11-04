@@ -190,7 +190,7 @@ Create one `type: spike` task that delivers a thin end-to-end slice through the 
 
 The walking skeleton is inherently globally true (it proves the *whole* stack runs), so it always lives in the infrastructure BC:
 
-- File: `board/infrastructure/todo/infrastructure-001-walking-skeleton.md` — the walking skeleton is a **reserved foundation id** (`infrastructure-001-walking-skeleton`), one of the closed set of deterministic ids `brainstorm` mints (ADR-0028 §7); it keeps a digit-tailed literal so downstream references resolve consistently with the styleguide gate. It is **not** a random token.
+- File: `board/infrastructure/todo/infrastructure-001-walking-skeleton.md`, frontmatter `id: infrastructure-001` — the walking skeleton is a **reserved foundation id** (`infrastructure-001`), one of the closed set of deterministic ids `brainstorm` mints (ADR-0028 §7); it keeps a digit-tailed literal so downstream references resolve consistently with the styleguide gate. It is **not** a random token. The `-walking-skeleton` part is the filename slug, never part of the id: write `infrastructure-001` in frontmatter, in every `depends_on`, and as the argument to `capture` (the lifecycle verbs derive the BC from a bare `<bc>-<digits>` id, and `dismiss` matches `depends_on` by exact id).
 - `depends_on:` every decision task you just emitted (both global and BC-local ones)
 - Acceptance criteria are observable, not architectural: "the app boots, hits its DB, returns a response from each BC's entry point", not "architecture works"
 - The task body must carry the stop-loss clause (ADR-0065): "if, mid-spike, the mitigation
@@ -203,7 +203,7 @@ The walking skeleton is inherently globally true (it proves the *whole* stack ru
 If the vision implies any UI — even a single admin dashboard — create a `type: feature` task for the design system before any BC builds its frontend.
 
 - Create `knowledge/contexts/design-system/README.md` seeding its purpose: tokens, components, patterns, review process.
-- File: `board/design-system/todo/design-system-001-styleguide.md` — like the walking skeleton, this is a **reserved foundation id** (`design-system-001-styleguide`, ADR-0028 §7): a deterministic digit-tailed literal, not a random token, because the styleguide *gate* references it by hard-coded id from every frontend-bearing BC README and skill. The reserved set is closed at exactly these two foundation ids.
+- File: `board/design-system/todo/design-system-001-styleguide.md`, frontmatter `id: design-system-001` — like the walking skeleton, this is a **reserved foundation id** (`design-system-001`, ADR-0028 §7): a deterministic digit-tailed literal, not a random token, because the styleguide *gate* references it by hard-coded id from every frontend-bearing BC README and skill. The `-styleguide` part is the filename slug only — the gate's `depends_on` entry, the frontmatter `id:`, and the `capture` argument are all the bare `design-system-001`. The reserved set is closed at exactly these two foundation ids.
 - `depends_on:` the walking-skeleton task (so the styleguide is built on the running app, not in a vacuum)
 - Acceptance criteria includes a human-in-the-loop checkpoint: "user has reviewed and signed off on the design system before any frontend feature task is promoted". This is a gate, not just a deliverable.
 
@@ -277,7 +277,9 @@ For each BC created during this session:
 
 For any global ADR written during the strategic phase (vision-level decisions), insert under `<!-- adr-global:start -->` in the top-level index the same way: `index-add '{"bc":null,"section":"adr-global","id":"<ADR-id>","line":"<the composed one-line entry>"}'` — same `index-missing` recovery as above.
 
-For each `type: decision` / `type: spike` / `type: feature` task emitted during the architecture-foundation step (the walking skeleton, the styleguide, each decision task), **register it with the mechanized `capture` verb** (ADR-0038, ADR-0073) instead of hand-editing the BC's INDEX — composed **per task** (ADR-0042's precedent: composition owned by the caller), with the protocol write structurally suppressed since the session entry above is the record:
+For each `type: decision` / `type: spike` / `type: feature` task emitted during the architecture-foundation step (the walking skeleton, the styleguide, each decision task), **register it with the mechanized `capture` verb** (ADR-0038, ADR-0073) instead of hand-editing the BC's INDEX — composed **per task** (ADR-0042's precedent: composition owned by the caller), with the protocol write structurally suppressed since the session entry above is the record.
+
+**Write-then-capture, one task at a time.** Run `capture` for a task **immediately after writing its file, before writing the next task file** — never write a BC's whole batch of foundation tasks first and capture them afterwards. `capture`'s empty-BC backfill (ADR-0078 §6) only creates a missing `board/<bc>/INDEX.md` when the BC's lifecycle folders hold nothing but the task being captured; if two or more task files already sit in a BC with no INDEX yet (the infrastructure BC routinely gets several decision tasks plus the walking skeleton), every `capture` there refuses `index-missing` and the index would have to be built by hand. Capturing each file as it lands keeps the first capture in every BC on the backfill path and every later one on the ordinary insert path.
 
 ```
 node -e "<the same env-free bootstrap modeling/SKILL.md's PROMOTE flow uses, targeting lib/task-lifecycle-cli.mjs>" capture <task-id> '{"protocolEntry": false}'

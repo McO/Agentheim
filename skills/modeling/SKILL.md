@@ -342,7 +342,7 @@ If the project has a `contexts/design-system/` BC with a styleguide task (set up
 
 If you're capturing the project's first frontend task and no styleguide task exists, **stop and surface that**. Offer either:
 - Running `brainstorm` in extension mode to add the foundation step, or
-- Capturing a `design-system-001-styleguide` task explicitly, with this captured task depending on it.
+- Capturing the styleguide task explicitly — frontmatter `id: design-system-001`, file `design-system-001-styleguide.md` — with this captured task depending on `design-system-001` (the bare id, never the slugged filename stem).
 
 Never promote a frontend task to `todo/` ahead of the styleguide. The styleguide is reviewed with the user before any BC implements its UI — that's the gate.
 

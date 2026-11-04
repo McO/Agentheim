@@ -300,4 +300,4 @@ These are not omissions to fix later — they're the point of having a separate 
   tools. Capture stays a single, fast pass with no sub-agent fan-out.
 - **No styleguide gate.** That gate fires at promote time; since capture only ever writes
   to backlog, it never applies here. A captured frontend task gets its
-  `design-system-001-styleguide` dependency added during refinement, not at capture.
+  `design-system-001` (styleguide) dependency added during refinement, not at capture.
