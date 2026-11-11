@@ -2,10 +2,11 @@
 
 ## Purpose
 
-The one bounded context of Agentheim: running a domain-driven, human-in-the-loop agentic
+The core bounded context of Agentheim: running a domain-driven, human-in-the-loop agentic
 workflow on top of Claude Code. Everything the tool does — turning an idea into a vision,
-a vision into a modeled backlog, and a backlog into committed code — happens here. There
-is no second context to map against; the workflow *is* the domain.
+a vision into a modeled backlog, and a backlog into committed code — happens here. The
+workflow *is* the domain; the two other contexts, design-system and infrastructure, exist
+to serve its dashboard (see `.agentheim/knowledge/context-map.md`).
 
 ## Classification
 
@@ -1386,9 +1387,13 @@ holds no lock on the worktree that spawned it.
   agentic-workflow-001) depends on the design-system styleguide. **Frontend gate:** every
   UI/frontend task here must list `design-system-001-styleguide` in its `depends_on`, and
   no frontend task may be promoted to `todo` ahead of the approved styleguide.
+- **infrastructure** — supplies the dashboard's transport (server, launch, static serving,
+  discovery, the live `tree-changed` stream); this BC is the downstream customer. What a
+  change *means* stays here: the board is a projection rebuilt from disk (ADR-0001), the
+  dashboard is read-only (ADR-0017), and the transport never interprets a frame as a task
+  transition (ADR-0070).
 
-A `context-map.md` may now be warranted as the BC count grows beyond one; revisit during
-the next modeling pass.
+The full map, with an authored mermaid diagram, is `.agentheim/knowledge/context-map.md`.
 
 ## Open questions
 
