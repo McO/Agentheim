@@ -47,7 +47,7 @@ flowchart LR
   ordering -->|events| billing
   identity -->|OHS/PL| ordering
   legacy-erp -->|ACL| billing
-  ordering <-->|partnership| pricing
+  pricing <-->|partnership| billing
 ```
 
 ## Rules
