@@ -43,7 +43,7 @@ reports are listed in each BC's `INDEX.md`.
 ## Pointers
 
 - Vision: `vision.md`
-- Context map: `context-map.md` (not warranted — single-BC domain)
+- Context map: `context-map.md` — three contexts (agentic-workflow core, design-system supporting, infrastructure generic) with an authored mermaid diagram
 - Protocol (chronological log): `../board/protocol.md` — newest entries on top; capped at ~1,000 lines, older months roll out verbatim to `../board/protocol/YYYY-MM.md` (ADR-0039)
 - All ADRs: `knowledge/decisions/`
 - All research: `knowledge/research/`
